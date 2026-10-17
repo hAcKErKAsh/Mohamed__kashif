@@ -1,0 +1,36 @@
+[package]
+name = "lyceum"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+anyhow = "1"
+argon2 = "0.5"
+axum = { version = "0.8", features = ["macros"] }
+axum-extra = { version = "0.10", features = ["cookie"] }
+base64 = "0.22"
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "tls-rustls", "postgres", "uuid", "chrono", "json", "macros", "migrate"] }
+thiserror = "2"
+time = "0.3"
+tokio = { version = "1", features = ["full"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["compression-gzip", "compression-br", "fs", "trace", "set-header", "limit", "timeout"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+totp-rs = { version = "5", features = ["otpauth"] }
+dashmap = "6"
+
+[dev-dependencies]
+reqwest = { version = "0.12", default-features = false, features = ["json", "cookies", "rustls-tls"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
