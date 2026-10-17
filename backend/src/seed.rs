@@ -40,11 +40,11 @@ pub async fn run(db: &PgPool) -> anyhow::Result<()> {
         ("G4", Some("PRI"), "grade", "Grade 4"),
         ("G5", Some("PRI"), "grade", "Grade 5"),
         ("G9", Some("SEN"), "grade", "Grade 9"),
-        ("4A", Some("G4"), "section", "Grade 4 · Section A"),
-        ("4B", Some("G4"), "section", "Grade 4 · Section B"),
-        ("5A", Some("G5"), "section", "Grade 5 · Section A"),
-        ("9A", Some("G9"), "section", "Grade 9 · Section A"),
-        ("9B", Some("G9"), "section", "Grade 9 · Section B"),
+        ("4A", Some("G4"), "section", "Section 4-A"),
+        ("4B", Some("G4"), "section", "Section 4-B"),
+        ("5A", Some("G5"), "section", "Section 5-A"),
+        ("9A", Some("G9"), "section", "Section 9-A"),
+        ("9B", Some("G9"), "section", "Section 9-B"),
         ("ROBO", Some("SEN"), "club", "Robotics Club"),
     ];
     for (i, (code, parent, kind, name)) in tree.iter().enumerate() {
@@ -89,13 +89,14 @@ pub async fn run(db: &PgPool) -> anyhow::Result<()> {
         ("student", "Student", "Enrolled learner.", "#55704a", true, vec!["content.view", "social.view", "social.post", "social.comment", "forms.submit"]),
     ];
     let mut role_ids: HashMap<&str, Uuid> = HashMap::new();
-    for (key, name, desc, color, system, perms) in roles {
-        let id: Uuid = sqlx::query_scalar("insert into roles (key, name, description, color, is_system) values ($1, $2, $3, $4, $5) returning id")
+    for (rank, (key, name, desc, color, system, perms)) in roles.into_iter().enumerate() {
+        let id: Uuid = sqlx::query_scalar("insert into roles (key, name, description, color, is_system, rank) values ($1, $2, $3, $4, $5, $6) returning id")
             .bind(key)
             .bind(name)
             .bind(desc)
             .bind(color)
             .bind(system)
+            .bind((rank as i32 + 1) * 10)
             .fetch_one(&mut *tx)
             .await?;
         for p in perms {

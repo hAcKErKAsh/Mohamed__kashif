@@ -61,7 +61,6 @@ pub struct Grant {
     pub path: String,
     pub role_key: String,
     pub role_name: String,
-    #[serde(skip)]
     pub perms: HashSet<String>,
 }
 

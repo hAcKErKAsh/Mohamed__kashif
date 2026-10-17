@@ -45,7 +45,7 @@ async fn list_roles(State(st): State<AppState>, a: Auth) -> AppResult<Json<Value
                'is_system', r.is_system,
                'permissions', coalesce((select jsonb_agg(permission order by permission) from role_permissions where role_id = r.id), '[]'::jsonb),
                'member_count', (select count(distinct user_id) from memberships where role_id = r.id))
-           from roles r order by r.is_system desc, r.name"#,
+           from roles r order by r.rank, r.name"#,
     )
     .fetch_all(&st.db)
     .await?;

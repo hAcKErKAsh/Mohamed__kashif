@@ -74,6 +74,7 @@ create table roles (
     description  text not null default '',
     color        text not null default '#5b6b5d',
     is_system    boolean not null default false,
+    rank         int not null default 100,
     created_at   timestamptz not null default now()
 );
 

@@ -393,8 +393,15 @@ async fn request_detail(State(st): State<AppState>, a: Auth, Path(id): Path<Uuid
     .bind(a.id())
     .fetch_optional(&st.db)
     .await?;
+    let form_fields: Option<Value> = sqlx::query_scalar(
+        "select f.fields from approval_requests r join form_submissions s on s.id = r.subject_id
+         join form_definitions f on f.id = s.form_id where r.id = $1 and r.subject_type = 'form'",
+    )
+    .bind(id)
+    .fetch_optional(&st.db)
+    .await?;
     Ok(Json(json!({
-        "request": request, "steps": steps, "events": events, "graph": graph,
+        "request": request, "steps": steps, "events": events, "graph": graph, "form_fields": form_fields,
         "my_task_id": my_task, "is_requester": requester == a.id()
     })))
 }
