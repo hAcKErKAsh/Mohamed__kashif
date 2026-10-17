@@ -4,7 +4,7 @@ A secure, configurable school management platform: identity and access control
 for a security administrator, an organisation tree, a multi-stage, multi-path
 approval engine, notices, a moderated community feed, and no-code forms.
 
-**Live demo (runs in your browser, read-only):** https://hackerkash.github.io/mohamed__kashif/
+**Live demo (runs in your browser, read-only):** https://hackerkash.github.io/Mohamed__kashif/
 Pick any of the six demo people on the sign-in screen.
 
 | Layer    | Choice                                                    |
