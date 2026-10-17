@@ -1,0 +1,16 @@
+{
+  "name": "Lyceum",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" }
+  },
+  "forwardPorts": [8080],
+  "portsAttributes": { "8080": { "label": "Lyceum", "onAutoForward": "openBrowser" } },
+  "postCreateCommand": "cd web && npm ci && npm run build && cd ../backend && cargo build",
+  "postAttachCommand": "cd backend && SEED_DEMO=1 cargo run",
+  "customizations": {
+    "vscode": { "extensions": ["rust-lang.rust-analyzer", "dbaeumer.vscode-eslint"] }
+  }
+}

@@ -38,9 +38,8 @@ export function App() {
   if (me.user.must_change_password) return <ForcePasswordChange name={me.user.full_name} />
   return (
     <SessionProvider me={me}>
-      <Router>
-        {import.meta.env.MODE === 'demo' && <DemoBanner />}
-        <Shell>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Shell banner={import.meta.env.MODE === 'demo' ? <DemoBanner /> : null}>
           <Suspense fallback={<Spinner />}>
             <AppRoutes />
           </Suspense>

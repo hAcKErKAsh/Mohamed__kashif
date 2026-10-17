@@ -19,7 +19,7 @@ function NavItem({ to, icon: Icon, children, count, end }: { to: string; icon: t
   )
 }
 
-export function Shell({ children }: { children: ReactNode }) {
+export function Shell({ children, banner }: { children: ReactNode; banner?: ReactNode }) {
   const { me, can, module, logout } = useSession()
   const [open, setOpen] = useState(false)
   const loc = useLocation()
@@ -82,6 +82,7 @@ export function Shell({ children }: { children: ReactNode }) {
       </aside>
 
       <div className="main">
+        {banner}
         <div className="topbar">
           <button className="btn ghost icon mobile-only" aria-label="Open menu" onClick={() => setOpen(true)}>
             <Menu />

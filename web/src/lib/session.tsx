@@ -55,8 +55,10 @@ export function SessionProvider({ me, children }: { me: Me; children: ReactNode 
       try {
         await api.post('/auth/logout')
       } finally {
-        qc.clear()
+        // Update the observed `me` query in place (clearing the cache would
+        // orphan the observer), then drop everything cached for this user.
         qc.setQueryData(['me'], null)
+        qc.removeQueries({ predicate: (q) => q.queryKey[0] !== 'me' })
       }
     },
   }
